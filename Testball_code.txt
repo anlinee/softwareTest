@@ -1,0 +1,128 @@
+import java.util.Scanner;
+
+public class Test {
+	public static void main(String[] args) {
+		/*
+		 * 
+		 *  int ball_number;	//记录假球号码
+		 *	int ball_weight;	//记录假球重量偏重或则偏轻
+		 *	String str_weight;	//设置字符是偏重还是偏轻
+		*/
+		int temp;
+		Scanner s=new Scanner(System.in);
+		System.out.println("请输入第一个球的重量");
+		int w1=s.nextInt();
+		System.out.println("第一个球的重量为"+w1);
+		System.out.println("请输入第二个球的重量");
+		int w2=s.nextInt();
+		System.out.println("第二个球的重量为"+w2);
+		System.out.println("请输入第三个球的重量");
+		int w3=s.nextInt();
+		System.out.println("第三个球的重量为"+w3);
+		System.out.println("请输入第四个球的重量");
+		int w4=s.nextInt();
+		System.out.println("第四个球的重量为"+w4);
+		System.out.println("请输入第五个球的重量");
+		int w5=s.nextInt();
+		System.out.println("第五个球的重量为"+w5);
+		System.out.println("请输入第六个球的重量");
+		int w6=s.nextInt();
+		System.out.println("第六个球的重量为"+w6);
+		System.out.println("请输入第七个球的重量");
+		int w7=s.nextInt();
+		System.out.println("第七个球的重量为"+w7);
+		System.out.println("请输入第八个球的重量");
+		int w8=s.nextInt();
+		System.out.println("第八个球的重量为"+w8);
+		System.out.println("请输入第九个球的重量");
+		int w9=s.nextInt();
+		System.out.println("第九个球的重量为"+w9);
+		System.out.println("请输入第十个球的重量");
+		int w10=s.nextInt();
+		System.out.println("第十个球的重量为"+w10);
+		Ball ball=new Ball();
+		temp = ball.getBadBall(w1, w2, w3, w4, w5, w6, w7, w8, w9, w10);
+		ball.Print(temp);
+		s.close();
+	}
+
+}
+===========================================
+
+
+public class Ball {
+	//编码第一位数字为偏重或者轻第二位为
+	//该方法返回假球号码
+	public int getBadBall(int w1,int w2,int w3,int w4,int w5,int w6,int w7,int w8,int w9,int w10){
+		int s_result = 13;
+		//第三组有假球或第十个是否有有假球
+		if(w1+w2+w3==w4+w5+w6){
+			if(w1+w2+w3==w7+w8+w9){
+				s_result=cheack_weight(3,w1,w2,w10);
+			}
+			else{//第三组有假球
+				s_result=cheack_weight(2,w1,w2,w3);
+			}
+		}
+		else if(w1+w2+w3==w7+w8+w9){	//第二组有假球
+			s_result=cheack_weight(1,w4,w5,w6);
+		}
+		else	//第一组有假球
+			s_result=cheack_weight(0,w1,w2,w3);
+		return s_result;
+	}
+	void Print(int temp) {
+		int ball_number = temp/10;
+		int ball_weight = temp%10;
+		String str_weight;
+		if(ball_number > 10)
+			ball_number = 10;
+		if(ball_weight == 1)
+			str_weight="偏轻";
+		else if(ball_weight == 2)
+			str_weight="偏重";
+		else
+			str_weight="无假球";
+		if(ball_weight!=3)
+			System.out.println("第"+ball_number+"为假球:"+str_weight);
+		else
+			System.out.println(str_weight);
+	}
+	//判断一组(三个球)中的轻重并且确定位置如11代表第一位1代表一号球 第二位：flag 1代表轻 如果是2则代表重,若第二位为3则代表无假球
+	public int cheack_weight(int group,int w1,int w2,int w3)
+	{
+		int flag=3;	//初始化为无假球
+		int pos = group+1;
+		int result = 13; 	//结果为wi*10+flag
+		if(w1 == w2){
+			if(w1==w3) flag = 3;
+			else{
+				pos=group*3+3;
+				if(w1<w3) flag=2;
+				else flag=1;
+			}
+		}
+		else if(w1 < w2){
+			if(w1<w3){
+				pos =group*3 + 1;
+				flag = 1;
+			}
+			else{	//w1==w2
+				pos =group*3 + 3;
+				flag = 2;
+			}
+		}
+		else{		//w1>w2
+			if(w1>w3){
+				pos =group*3 + 1;
+				flag = 2;
+			}
+			else //w1==w3
+			{
+				pos =group*3 + 2;
+				flag = 1;
+			}
+		}
+		return result = pos*10+flag;
+	}
+}
